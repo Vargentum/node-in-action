@@ -80,3 +80,8 @@ var server = http.createServer(function(req, res) {
 server.listen(9065, function() {
   console.log('Server listening at port 9065')
 })
+
+
+// add socket.io server
+var chatServer = require('./lib/chat_server');
+chatServer.listen(server);
