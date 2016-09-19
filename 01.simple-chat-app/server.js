@@ -2,17 +2,8 @@ var http = require('http')
 var fs = require('fs')
 var path = require('path')
 var mime = require('mime')
-var socketIo = require('socket.io')
-
-var server = new http.Server()
 
 var cache = {}
-
-
-
-server.listen(9065)
-server.on()
-
 
 function error404(res) {
   res.writeHead(404, {'Content-Type': 'text/plain'})
@@ -44,7 +35,10 @@ function serveStatic(res, cache, absPath) {
   if (cache[absPath]) {
     sendFile(res, absPath, cache[absPath])
   } else {
+    debugger
     fs.stat(absPath, function(err, stats) {
+      if (err) throw err
+      debugger
       if (stats.isFile()) {
         fs.readFile(absPath, function(err, data) {
           if (err) error404(res)
@@ -73,16 +67,16 @@ use serveStatic to request a file
 */
 var server = http.createServer(function(req, res) {
   var filePath = null
-
-  if (req.url = '/') {
+  if (req.url === '/') {
     filePath = 'public/index.html'  // served by default
   } else {
-    filePath = 'public/' + req.url  // relative path!
+    filePath = 'public' + req.url  // relative path!
   }
   var absPath = './' + filePath
-
+  debugger
   serveStatic(res, cache, absPath)
 })
 
-server.listen(9067)
-
+server.listen(9065, function() {
+  console.log('Server listening at port 9065')
+})
