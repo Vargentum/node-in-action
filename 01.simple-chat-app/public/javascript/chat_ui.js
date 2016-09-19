@@ -27,7 +27,8 @@ function processUserInput(chatApp, socket) {
 var socket = io.connect();
 
 $(document).ready(function() {
-  var chatApp = new Chat(socket);
+  var chatApp = Object.create(Chat)
+  chatApp.socket = socket
 
   socket.on('nameResult', function(result) {
     var message;

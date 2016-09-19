@@ -1,43 +1,39 @@
-var Chat = function(socket) {
-  this.socket = socket;
-};
+var Chat = {
+  sendMessage: function(room, text) {
+    this.socket.emit('message', {
+      room: room,
+      text: text
+    })
+  },
+  changeRoom: function (room) {
+    this.socket.emit('join', {
+      newRoom: room
+    })
+  }
+  /*proccess command: with following format -> /keyword message
+    get commands array (splitted by whitespaces)
+  */
+  processCommand: function(command) {
+    var words = command.split(' ')
+    var keyword = words[0]
+      .substring(1, words[0].length)
+      .toLowerCase()
+    var message = null
 
-Chat.prototype.sendMessage = function(room, text) {
-  var message = {
-    room: room,
-    text: text
-  };
-  this.socket.emit('message', message);
-};
-
-Chat.prototype.changeRoom = function(room) {
-  this.socket.emit('join', {
-    newRoom: room
-  });
-};
-
-Chat.prototype.processCommand = function(command) {
-  var words = command.split(' ');
-  var command = words[0]
-                .substring(1, words[0].length)
-                .toLowerCase();
-  var message = false;
-
-  switch(command) {
-    case 'join':
-      words.shift();
-      var room = words.join(' ');
-      this.changeRoom(room);
-      break;
-    case 'nick':
-      words.shift();
-      var name = words.join(' ');
-      this.socket.emit('nameAttempt', name);
-      break;
-    default:
-      message = 'Unrecognized command.';
-      break;
-  };
-
-  return message;
-};
+    switch (true) {
+      case 'nick':
+        words.shift()
+        var name = words.join(' ')
+        this.socket.emit('nameAttempt', name)
+        break;
+      case 'join':
+        words.shift()
+        var room = words.join(' ')
+        this.changeRoom(room)
+        break;
+      default:
+        message = 'Unrecognized command'
+    }
+    return message
+  }
+}
