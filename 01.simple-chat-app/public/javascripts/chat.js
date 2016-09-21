@@ -9,7 +9,7 @@ var Chat = {
     this.socket.emit('join', {
       newRoom: room
     })
-  }
+  },
   /*proccess command: with following format -> /keyword message
     get commands array (splitted by whitespaces)
   */
@@ -20,7 +20,7 @@ var Chat = {
       .toLowerCase()
     var message = null
 
-    switch (true) {
+    switch (keyword) {
       case 'nick':
         words.shift()
         var name = words.join(' ')

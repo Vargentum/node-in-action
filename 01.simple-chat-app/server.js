@@ -35,10 +35,8 @@ function serveStatic(res, cache, absPath) {
   if (cache[absPath]) {
     sendFile(res, absPath, cache[absPath])
   } else {
-    debugger
     fs.stat(absPath, function(err, stats) {
       if (err) throw err
-      debugger
       if (stats.isFile()) {
         fs.readFile(absPath, function(err, data) {
           if (err) error404(res)
@@ -73,7 +71,6 @@ var server = http.createServer(function(req, res) {
     filePath = 'public' + req.url  // relative path!
   }
   var absPath = './' + filePath
-  debugger
   serveStatic(res, cache, absPath)
 })
 
@@ -83,5 +80,5 @@ server.listen(9065, function() {
 
 
 // add socket.io server
-var chatServer = require('./lib/chat_server');
-chatServer.listen(server);
+var listen = require('./lib/chat_server');
+listen(server);

@@ -7,7 +7,7 @@ var currentRoom = {};
 
 
 module.exports = function listen(server) {
-  io = sockitio.listen(server)  // start socket.io allow to piggyback the existing server
+  io = socketio.listen(server)  // start socket.io allow to piggyback the existing server
   io.set('log level', 1)
 
   io.sockets.on('connection', function(socket) {
@@ -16,13 +16,13 @@ module.exports = function listen(server) {
     handleMessageBroadcasting(socket, nickNames)
     handleNameChangeAttempts(socket, nickNames, namesUsed)
     handleRoomJoining(socket)
-  })
 
-  io.sockets.on('rooms', function(socket) {
-    socket.emit('rooms', io.sockets.manager.rooms)
-  })
+    io.sockets.on('rooms', function(socket) {
+      socket.emit('rooms', io.sockets.manager.rooms)
+    })
 
-  handleClientDisconnection(socket, nickNames, namesUsed) //clean-up logic
+    handleClientDisconnection(socket, nickNames, namesUsed) //clean-up logic
+  })
 }
 
 
@@ -35,7 +35,7 @@ guestNumber:
   - increemnt counter
 */
 
-function guestNumber (socket, guestNumber, nickNames, namesUsed) {
+function assignGuestName (socket, guestNumber, nickNames, namesUsed) {
   var name = 'Guest ' + guestNumber
   nickNames[socket.id] = name
   socket.emit('nameResult', {
@@ -67,18 +67,18 @@ function joinRoom(socket, room) {
   socket.to(room, {
     text: 'User ' + nickNames[socket.id] + ' was joined to the room ' + room
   })
-  var usersInRoom = io.sockets.clients(room)
-  var usersInRoomSummary = usersInRoom.reduce((usersString, user) => {
-    if (user.id === socket.id) {
-      return usersString
-    } else {
-      return usersString + ', ' + nickNames[user.id]
-    }
-  }, '')
+  // var usersInRoom = io.sockets.clients(room) // accepts `room` as a function :()
+  // var usersInRoomSummary = usersInRoom.reduce((usersString, user) => {
+  //   if (user.id === socket.id) {
+  //     return usersString
+  //   } else {
+  //     return usersString + ', ' + nickNames[user.id]
+  //   }
+  // }, '')
 
-  socket.emit('message', {
-    text: usersInRoomSummary
-  })
+  // socket.emit('message', {
+  //   text: usersInRoomSummary
+  // })
 }
 
 
