@@ -8,13 +8,8 @@ var root = __dirname
 var server = http.createServer(function(req, res) {
   var url = parseUrl(req.url)
   var path = joinPath(root, url.pathname)
-  var stream = fs.createReadStream(path)
-  stream.on('data', function(chunk) {
-    res.write(chunk)
-  })
-  stream.on('end', function() {
-    res.end()
-  })
+  var fileContentStream = fs.createReadStream(path)
+  fileContentStream.pipe(res)
 })
 
 server.listen(9043)
