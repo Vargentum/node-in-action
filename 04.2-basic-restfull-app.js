@@ -1,6 +1,5 @@
 var http = require('http')
 var url = require('url')
-var queryString = require('querystring')
 var todos = []
 
 function composeChunksFor (container) {
