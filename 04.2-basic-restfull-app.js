@@ -1,6 +1,6 @@
 var http = require('http')
 var url = require('url')
-
+var todos = []
 
 function composeChunksFor (container) {
   return function(chunk) {
@@ -17,8 +17,9 @@ function onTodoCreate(req, res, todos) {
   })
 }
 function onTodoView(req, res, todos) {
-  console.log(todos.join(' '), '---------')
-  res.end(todos.join(' '))
+  var body = todos.map(function(item,i), {return i + '. ' + item}).join('\n')
+  res.setHeader('Content-Length', Buffer.byteLength(body))
+  res.setHeader('Content-Type', 'text/plain; charset="utf-8"')
 }
 function defaultBehavior(req, res) {
   res.end('Hello world')
@@ -26,7 +27,6 @@ function defaultBehavior(req, res) {
 
 
 var server = http.createServer(function(req, res) {
-  var todos = []
   switch (req.method) {
     case "POST":
       onTodoCreate(req, res, todos)
