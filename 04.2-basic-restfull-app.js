@@ -1,5 +1,6 @@
 var http = require('http')
 var url = require('url')
+var queryString = require('querystring')
 var todos = []
 
 function composeChunksFor (container) {
@@ -37,6 +38,22 @@ function onTodoDelete(req, res) {
   }
 }
 
+function onTodoUpdate(req, res) {
+  var urlObject = url.parse(req.url)
+  var idx = parseInt(urlObject.pathname.slice(1), 10)
+  var data = urlObject.query
+
+  if (isNan(idx)) {
+    res.statusCode = 400
+    res.end('Invalid item id')
+  } else if (!todos[idx]) {
+    res.statusCode = 404
+    res.end('Item not found')
+  } else {
+    todos[i] = data
+    tes.end('OK\n')
+  }
+}
 
 
 var server = http.createServer(function(req, res) {
@@ -47,6 +64,8 @@ var server = http.createServer(function(req, res) {
     case "GET":
       onTodoView(req, res)
       break;
+    case "PUT":
+      onTodoUpdate(req, res)
     case "DELETE":
       onTodoDelete(req, res)
   }
