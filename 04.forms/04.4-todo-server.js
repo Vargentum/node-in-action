@@ -1,7 +1,8 @@
 var http = require('http');
 var qs = require('querystring');
-var todos = [];
+var u = require('./utils')
 
+var todos = [];
 
 var server = http.createServer(function(req, res) {
   if  (req.url === '/') {
@@ -10,10 +11,10 @@ var server = http.createServer(function(req, res) {
         show(res); break;
       case "POST":
         add(req, res); break;
-      default: badRequest(res)
+      default: u.badRequest(res)
     }
   } else {
-    notFound(res)
+    u.notFound(res)
   }
 });
 
@@ -50,16 +51,4 @@ function add(req, res) {
     todos.push(bodyObject.todo)
     show(res)
   })
-}
-
-function badRequest(res) {
-  res.setHeader('Content-Type', 'text/plain');
-  res.statusCode = 500;
-  res.end('Bad request')
-}
-
-function notFound(res) {
-  res.setHeader('Content-Type', 'text/plain');
-  res.statusCode = 404;
-  res.end('Not found')
 }
