@@ -1,8 +1,9 @@
 var http = require('http');
+var qs = require('querystring');
 var todos = [];
 
 
-http.createServer(function(req, res) {
+var server = http.createServer(function(req, res) {
   if  (req.url === '/') {
     switch (req.method) {
       case "GET":
@@ -16,21 +17,21 @@ http.createServer(function(req, res) {
   }
 });
 
-http.listen(9044);
+server.listen(9044);
 
 
 
 
 function show(res) {
-  var html = '<html><head>Todo list</head><body>'
+  var html = '<html><head><title>Todo list</title></head><body>'
             +'<h1>Todo List</h1>'
             +'<ul>'
-            + items.map(function(item) {
-                return '<li>'+item+'</li>'
+            + todos.map(function(todo) {
+                return '<li>'+todo+'</li>'
                }).join('')
             +'</ul>'
-            +'<form>'
-            +'<p><input type="text" name="item" /></p>'
+            +'<form method="post" action="/">'
+            +'<p><input type="text" name="todo" /></p>'
             +'<p><input type="submit" value="Add Item" /></p>'
             +'</form></body></html>'
   res.setHeader('Content-Type', 'text/html')
@@ -39,7 +40,16 @@ function show(res) {
 }
 
 function add(req, res) {
-  
+  var body = '';
+  req.setEncoding('utf-8')
+  req.on('data', function(chunk) {
+    body += chunk
+  })
+  req.on('end', function () {
+    var bodyObject = qs.parse(body)
+    todos.push(bodyObject.todo)
+    show(res)
+  })
 }
 
 function badRequest(res) {
