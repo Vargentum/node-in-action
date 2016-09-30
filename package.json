@@ -1,0 +1,23 @@
+{
+  "name": "node-in-action",
+  "version": "1.0.0",
+  "description": "",
+  "main": "04.1.2-basic-http-server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vargentum/node-in-action.git"
+  },
+  "keywords": [],
+  "author": "Vargentum <vargentum@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Vargentum/node-in-action/issues"
+  },
+  "homepage": "https://github.com/Vargentum/node-in-action#readme",
+  "dependencies": {
+    "formidable": "1.0.17"
+  }
+}
