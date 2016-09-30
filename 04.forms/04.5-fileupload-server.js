@@ -3,14 +3,12 @@ var formidable = require('formidable');
 var u = require('./utils')
 
 
-var server = http.createServer(function (req, res) {
+http.createServer(function (req, res) {
   switch (req.method) {
     case "GET": show(req, res); break;
     case "POST": upload(req, res); break;
   }
-})
-
-server.listen(9045)
+}).listen(9045)
 
 function logArgs(a1, a2) {
   console.log(a1, '---------')
@@ -32,12 +30,15 @@ function upload(req, res) {
   if (!isFormData(req)) 
     u.badRequest()
   var form = new formidable.IncomingForm()
-  form.on('field', logArgs)
-  form.on('file', logArgs)
-  form.on('end', function() {
+  form.parse(req, function(err, fields, files) {
+    // console.log(fields, 'fields---------')
+    // console.log(files, 'files---------')
     res.end('Upload complete')
   })
-  form.parse(req)
+  form.on('progress', function (bytesReceived, bytesExpected) {
+    var persent = Math.floor(bytesReceived / bytesExpected * 100)
+    console.log(persent + '%')
+  })
 }
 
 function isFormData(req) {
