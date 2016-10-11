@@ -84,5 +84,4 @@ function errorHandler (err, req, res, next) {
 function errorPage (req, res, next) {
   res.setHeader('Content-Type', 'text/html')
   res.end('<html><head></head><body><h1>Error</h1></body></html>')
-  next()
 }
