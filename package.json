@@ -18,13 +18,18 @@
   },
   "homepage": "https://github.com/Vargentum/node-in-action#readme",
   "dependencies": {
+    "basic-auth-connect": "1.0.0",
     "body-parser": "1.15.2",
     "connect": "3.5.0",
+    "connect-logger": "0.0.1",
     "connect-multiparty": "2.0.0",
     "connect-query": "0.2.0",
+    "connect-redis": "3.1.0",
     "cookie-parser": "1.4.3",
+    "errorhandler": "1.4.3",
     "formidable": "1.0.17",
     "lodash": "4.16.4",
+    "morgan": "1.7.0",
     "promisify-node": "0.4.0"
   }
 }

@@ -1,0 +1,4 @@
+[0mGET /foo/bar?boo=baz [32m200 [0m1.354 ms - -[0m
+[0mGET /favicon.ico [32m200 [0m0.545 ms - -[0m
+[0mGET /foo/bar?boo=baz [32m200 [0m0.356 ms - -[0m
+[0mGET /favicon.ico [32m200 [0m0.185 ms - -[0m
