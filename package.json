@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/Vargentum/node-in-action#readme",
   "dependencies": {
+    "body-parser": "1.15.2",
     "connect": "3.5.0",
+    "connect-multiparty": "2.0.0",
+    "cookie-parser": "1.4.3",
     "formidable": "1.0.17",
     "lodash": "4.16.4",
     "promisify-node": "0.4.0"
