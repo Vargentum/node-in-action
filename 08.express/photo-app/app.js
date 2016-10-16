@@ -15,7 +15,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.set('photos', 'public/photos')
+app.set('photos', path.join(__dirname + '/public/photos'));
 
 app.set('title', 'Photos Sharing App')
 
@@ -32,6 +32,7 @@ app.use('/', routes);
 app.use('/users', users);
 
 app.get('/photos', photos.list);
+app.get('/photos/:id/download', photos.download(app.get('photos')));
 app.get('/upload', photos.form)
 app.post('/upload', photos.submit(app.get('photos')))
 

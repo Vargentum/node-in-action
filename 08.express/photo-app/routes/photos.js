@@ -1,5 +1,5 @@
 var express = require('express');
-var PhotoModel = require('../models/photo') 
+var PhotoModel = require('../models/photo')
 var fs = require('fs')
 var path = require('path')
 
@@ -26,7 +26,7 @@ exports.form = function(req, res) {
 /* -----------------------------
   submit
   (dir) => (res, req) =>
- 
+
   access image file as req.files.photo
   access name as req.body.photo
   get Abs image path
@@ -63,3 +63,19 @@ exports.submit = function(dir) {
 
 
 
+
+exports.download = function(dir) {
+  return function (req, res, next) {
+    /*TODO:
+      get id
+      compose path
+      sendFile(path)
+    */
+    var id = req.params.id
+    PhotoModel.findById(id, function(err, file) {
+      if (err) next(err)
+      // res.sendFile(path.join(dir, file.path)) 
+      res.download(path.join(dir, file.path))
+    })
+  }
+}
